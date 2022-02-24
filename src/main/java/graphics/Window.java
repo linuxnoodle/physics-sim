@@ -1,9 +1,15 @@
 package graphics;
 
+import game.GameObject;
+import game.body.RigidBody;
+import game.objects.Box;
 import graphics.input.KeyHandler;
 import graphics.input.MouseHandler;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.GL;
+
+import java.util.ArrayList;
+import java.util.ListIterator;
 
 import static org.lwjgl.glfw.GLFW.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -20,8 +26,8 @@ public class Window {
     MouseHandler mouseHandler;
 
     private Window(){
-        this.width = 1920;
-        this.height = 1080;
+        this.width = 1280;
+        this.height = 720;
         this.title = "Physics Simulator";
     }
 
@@ -69,6 +75,8 @@ public class Window {
 
         glfwShowWindow(glfwWindow);
 
+        Box box = new Box(width/2, height/2, 20, 20);
+
         // used for LWJGL working with GLFW
         GL.createCapabilities();
     }
@@ -77,6 +85,10 @@ public class Window {
         boolean[] keys = keyHandler.getPressedKeys();
         if (keys[GLFW_KEY_ESCAPE]){
             close();
+        }
+
+        for (GameObject object: GameObject.getGameObjects()){
+            object.update();
         }
     }
 
@@ -107,6 +119,19 @@ public class Window {
             glVertex2f(mouseX + 15f / width, mouseY - 15f / height);
             glVertex2f(mouseX + 15f / width, mouseY + 15f / height);
             glVertex2f(mouseX - 15f / width, mouseY + 15f / height);
+        glEnd();
+
+        glBegin(GL_QUADS);
+            for (GameObject object : GameObject.getGameObjects()){
+                float objectX = 2.0f * (object.getX() + 0.5f) / width - 1.0f;
+                float objectY = 2.0f * (object.getY() + 0.5f) / height - 1.0f;
+
+                glColor3f(1.0f, 1.0f, 1.0f);
+                glVertex2f(objectX - object.getWidth() / 2, objectY - object.getHeight() / 2);
+                glVertex2f(objectX + object.getWidth() / 2, objectY - object.getHeight() / 2);
+                glVertex2f(objectX + object.getWidth() / 2, objectY + object.getHeight() / 2);
+                glVertex2f(objectX - object.getWidth() / 2, objectY + object.getHeight() / 2);
+            }
         glEnd();
 
         glfwSwapBuffers(glfwWindow);

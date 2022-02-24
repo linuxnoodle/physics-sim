@@ -3,11 +3,12 @@ package game.objects;
 import game.body.RigidBody;
 
 public class Box extends RigidBody {
-    public Box(int x, int y, int height, int width, long id) {
-        super(x, y, height, width, id);
+    public Box(float x, float y, float height, float width) {
+        super(x, y, height, width);
     }
 
     @Override
     public void update() {
+        super.update();
     }
 }

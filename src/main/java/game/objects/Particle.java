@@ -3,7 +3,7 @@ package game.objects;
 import game.body.RigidBody;
 
 public class Particle extends RigidBody {
-    public Particle(int x, int y, int height, int width, long id) {
-        super(x, y, height, width, id);
+    public Particle(float x, float y, float height, float width) {
+        super(x, y, height, width);
     }
 }

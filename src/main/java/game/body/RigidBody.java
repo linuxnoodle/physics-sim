@@ -1,13 +1,18 @@
 package game.body;
 
 import game.GameObject;
+import game.math.RayCast;
 
 public class RigidBody extends GameObject {
-    protected RigidBody(int x, int y, int height, int width, long id) {
-        super(x, y, height, width, id);
+    protected RigidBody(float x, float y, float height, float width) {
+        super(x, y, height, width);
     }
 
-    protected void update(){
-        y += 1;
+    @Override
+    public void update() {
+        super.update();
+        if (!RayCast.Cast(x, y, 270, 10)){
+            y -= 0.98;
+        }
     }
 }
